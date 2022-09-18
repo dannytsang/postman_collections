@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "0a29d4b7-9bf6-4b13-b944-b0145cad1236",
+		"name": "Octopus Energy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.octopus.energy/v1/products/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octopus",
+						"energy"
+					],
+					"path": [
+						"v1",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gas Usage",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');",
+							"pm.environment.set('startDate', moment(\"2022-09-01\").add(\"day\",pm.info.iteration).format((\"YYYY-MM-DD\")) + \"T00:30:00\");",
+							"pm.environment.set('endDate', moment(\"2022-09-01\").add(\"day\",pm.info.iteration).format((\"YYYY-MM-DD\")) + \"T04:30:00\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.octopus.energy/v1/gas-meter-points/{{gas_mprn}}/meters/{{gas_serial}}/consumption/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octopus",
+						"energy"
+					],
+					"path": [
+						"v1",
+						"gas-meter-points",
+						"{{gas_mprn}}",
+						"meters",
+						"{{gas_serial}}",
+						"consumption",
+						""
+					],
+					"query": [
+						{
+							"key": "period_from",
+							"value": "{{startDate}}",
+							"disabled": true
+						},
+						{
+							"key": "period_to",
+							"value": "{{endDate}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Elecitricity Usage",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');",
+							"pm.environment.set('startDate', moment(\"2022-09-01\").add(\"day\",pm.info.iteration).format((\"YYYY-MM-DD\")) + \"T00:30:00\");",
+							"pm.environment.set('endDate', moment(\"2022-09-01\").add(\"day\",pm.info.iteration).format((\"YYYY-MM-DD\")) + \"T04:30:00\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Consumption greater than 0\", function () {",
+							"    let detalheArray = _.get(pm.response.json(), 'results'),",
+							"        valuesToSum = [];",
+							"",
+							"    _.each(detalheArray, (item) => {",
+							"        valuesToSum.push(item.consumption)",
+							"    });",
+							"",
+							"    total = _.sum(valuesToSum)",
+							"    console.log(\"Values: \" + valuesToSum);",
+							"    console.log(\"Iteration:\" + pm.info.iteration);",
+							"    console.log(\"Total:\" + total);",
+							"    pm.environment.set('totalConsumption', parseFloat(pm.environment.get('totalConsumption')) + total);",
+							"",
+							"    pm.expect(total).to.greaterThan(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.octopus.energy/v1/electricity-meter-points/{{electricity_mprn}}/meters/{{electricity_serial}}/consumption/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octopus",
+						"energy"
+					],
+					"path": [
+						"v1",
+						"electricity-meter-points",
+						"{{electricity_mprn}}",
+						"meters",
+						"{{electricity_serial}}",
+						"consumption",
+						""
+					],
+					"query": [
+						{
+							"key": "period_from",
+							"value": "{{startDate}}",
+							"disabled": true
+						},
+						{
+							"key": "period_to",
+							"value": "{{endDate}}",
+							"disabled": true
+						},
+						{
+							"key": "group_by",
+							"value": "day",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tarrif Charges",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');",
+							"pm.environment.set('startDate', moment(\"2022-09-01\").add(\"day\",pm.info.iteration).format((\"YYYY-MM-DD\")) + \"T00:30:00\");",
+							"pm.environment.set('endDate', moment(\"2022-09-01\").add(\"day\",pm.info.iteration).format((\"YYYY-MM-DD\")) + \"T04:30:00\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.octopus.energy/v1/products/AFFECT-VAR-21-07-02/electricity-tariffs/AFFECT-FIX-12M-21-09-04/standard-unit-rates/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"octopus",
+						"energy"
+					],
+					"path": [
+						"v1",
+						"products",
+						"AFFECT-VAR-21-07-02",
+						"electricity-tariffs",
+						"AFFECT-FIX-12M-21-09-04",
+						"standard-unit-rates",
+						""
+					],
+					"query": [
+						{
+							"key": "period_from",
+							"value": "{{startDate}}",
+							"disabled": true
+						},
+						{
+							"key": "period_to",
+							"value": "{{endDate}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
