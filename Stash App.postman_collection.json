@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "8fa49367-0070-4046-9267-769e96f824e9",
+		"name": "Stash App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Update Library",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ApiKey",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"query\": \"mutation { metadataScan ( input: { useFileMetadata: true } ) metadataGenerate ( input : { sprites: true previews: true imagePreviews: true markers: true transcodes: false } ) } \"}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/graphql",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
