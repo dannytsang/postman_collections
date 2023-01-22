@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "2052dd08-0ddd-4e9e-85d3-5202f5778bb1",
+		"name": "Home Assistant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8025119"
+	},
+	"item": [
+		{
+			"name": "Webhook",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"key\":\"{{github_pull_key}}\" }"
+				},
+				"url": {
+					"raw": "{{url}}/api/webhook/git_pull",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"webhook",
+						"git_pull"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
