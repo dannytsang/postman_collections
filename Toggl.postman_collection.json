@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "2589a32a-6258-4b0d-b372-1058c3387da6",
+		"name": "Toggl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8025119"
+	},
+	"item": [
+		{
+			"name": "Get running time entry",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.track.toggl.com/api/v9/me/time_entries/current",
+					"protocol": "https",
+					"host": [
+						"api",
+						"track",
+						"toggl",
+						"com"
+					],
+					"path": [
+						"api",
+						"v9",
+						"me",
+						"time_entries",
+						"current"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get project data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.track.toggl.com/api/v9/workspaces/{{workspace_id}}/projects/{{project_id}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"track",
+						"toggl",
+						"com"
+					],
+					"path": [
+						"api",
+						"v9",
+						"workspaces",
+						"{{workspace_id}}",
+						"projects",
+						"{{project_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Workspaces",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.track.toggl.com/api/v9/workspaces",
+					"protocol": "https",
+					"host": [
+						"api",
+						"track",
+						"toggl",
+						"com"
+					],
+					"path": [
+						"api",
+						"v9",
+						"workspaces"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "api_token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
